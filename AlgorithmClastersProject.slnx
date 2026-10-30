@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="AlgorithmClastersProject/AlgorithmClastersProject.vcxproj" Id="78ec0f61-d321-4fe2-8394-20404dec6b98" />
+</Solution>
