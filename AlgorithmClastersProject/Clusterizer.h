@@ -8,17 +8,13 @@
 #include <string>
 #include <iostream>
 
-struct Point
-{
-	int x;
-	int y;
-};
+#undef max
 
 template <typename T>
 class IDifference
 {
 public:
-	//virtual double Difference(T one, T two) = 0;
+	virtual double Difference(T one, T two) = 0;
 	virtual double operator()(T one, T two) = 0;
 };
 
@@ -26,6 +22,7 @@ template <typename T>
 class ICreateObject
 {
 public:
+	virtual T Create(std::string stringObject) = 0;
 	virtual T operator()(std::string stringObject) = 0;
 };
 
@@ -43,8 +40,7 @@ class Clusterizer
 
 	int Random(int topBound);
 public:
-
-	Clusterizer(IDifference<T>* difference, ICreateObject creator)
+	Clusterizer(IDifference<T>* difference, ICreateObject<T>* creator)
 		: difference{ difference },
 		  creator{ creator } {}
 
@@ -89,7 +85,7 @@ int Clusterizer<T>::Random(int topBound)
 template <typename T>
 std::vector<T> Clusterizer<T>::Objects()
 {
-	return object;
+	return objects;
 }
 
 template <typename T>
@@ -101,10 +97,11 @@ void Clusterizer<T>::LoadObjects(std::string fileName)
 	while (std::getline(objectsFile, objectLine))
 	{
 		objectLine = RemoveSpaces(objectLine);
-		T object = creator(objectLine);
-		objects.push_back(object);
 
-		
+		if (objectLine.empty()) continue;
+
+		T object = creator->Create(objectLine);
+		objects.push_back(object);
 	}
 }
 
@@ -118,7 +115,7 @@ T Clusterizer<T>::Centroid(std::list<T> cluster)
 	{
 		double currentDifferenceAll{};
 		for (auto point = cluster.begin(); point != cluster.end(); point++)
-			currentDifferenceAll += difference(*current, *point);
+			currentDifferenceAll += difference->Difference(*current, *point);
 		if (currentDifferenceAll < minDifferenceAll)
 		{
 			minDifferenceAll = currentDifferenceAll;
@@ -161,7 +158,7 @@ std::vector<std::list<T>> Clusterizer<T>::Clustering(int clustersCount)
 
 				for (int cnt{}; cnt < centroids.size(); cnt++)
 				{
-					double currentDifference = difference(*it, centroids[cnt]);
+					double currentDifference = difference->Difference(*it, centroids[cnt]);
 					if (currentDifference < minDiffirence)
 					{
 						minDiffirence = currentDifference;

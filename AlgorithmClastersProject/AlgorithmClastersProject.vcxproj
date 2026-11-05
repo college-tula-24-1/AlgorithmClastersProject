@@ -142,10 +142,21 @@
     <ClCompile Include="AlgorithmClastersProject.cpp" />
     <ClCompile Include="Clusterizer.cpp" />
     <ClCompile Include="Grapher.cpp" />
+    <ClCompile Include="PersonClustering.cpp" />
+    <ClCompile Include="PointClastering.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clusterizer.h" />
     <ClInclude Include="Grapher.h" />
+    <ClInclude Include="PersonClustering.h" />
+    <ClInclude Include="PointClastering.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AlgorithmClastersProject.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="persons.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
